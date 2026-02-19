@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiRepair — Design Directions Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2084D7;
+    --dark: #1F2E53;
+    --soft: #F8F9FA;
+    --alt: #E8ECF1;
+    --success: #16A34A;
+    --warning: #F59E0B;
+    --error: #DC2626;
+    --muted: #6B7280;
+    --border: #E2E8F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--dark); color: var(--soft); }
+
+  /* Navigation */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(31,46,83,0.95); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 24px; display: flex; align-items: center; gap: 16px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .nav-title { font-weight: 700; font-size: 14px; white-space: nowrap; color: var(--primary); }
+  .nav-btn {
+    padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+    background: transparent; color: var(--soft); font-family: inherit;
+    font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  /* Sections */
+  .direction {
+    min-height: 100vh; padding: 80px 0 40px; display: none;
+  }
+  .direction.active { display: block; }
+  .direction-header {
+    text-align: center; padding: 40px 24px 32px;
+  }
+  .direction-header h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .direction-header p { font-size: 16px; color: var(--muted); max-width: 600px; margin: 0 auto; }
+  .direction-tag {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; margin-bottom: 16px;
+    background: rgba(32,132,215,0.15); color: var(--primary);
+  }
+
+  /* Mockup frame */
+  .mockup-frame {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  }
+  .mockup-desktop {
+    background: var(--soft); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+  }
+  .mockup-mobile {
+    width: 375px; margin: 32px auto 0; background: var(--soft);
+    border-radius: 32px; overflow: hidden; padding: 16px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4); border: 4px solid #333;
+  }
+  .mockup-row { display: flex; gap: 32px; align-items: flex-start; }
+  .mockup-row .mockup-desktop { flex: 1; }
+  .mockup-row .mockup-mobile { flex-shrink: 0; margin-top: 0; }
+
+  /* Internal mockup styles */
+  .m-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px; border-bottom: 1px solid var(--border);
+  }
+  .m-nav-logo { font-weight: 700; font-size: 20px; color: var(--dark); }
+  .m-nav-logo span { color: var(--primary); }
+  .m-nav-links { display: flex; gap: 24px; }
+  .m-nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+  .m-nav-cta {
+    padding: 10px 20px; background: var(--primary); color: #fff;
+    border-radius: 8px; font-size: 14px; font-weight: 600; border: none;
+  }
+
+  /* Hero variants */
+  .m-hero { padding: 64px 32px; text-align: center; }
+  .m-hero h1 { font-size: 48px; font-weight: 700; color: var(--dark); line-height: 1.1; margin-bottom: 16px; }
+  .m-hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin: 0 auto 32px; line-height: 1.6; }
+  .m-hero-btn {
+    display: inline-block; padding: 16px 32px; background: var(--primary); color: #fff;
+    border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none;
+  }
+
+  /* Cards */
+  .m-cards { display: grid; gap: 16px; padding: 32px; }
+  .m-cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .m-cards-2 { grid-template-columns: repeat(2, 1fr); }
+  .m-card {
+    background: #fff; border-radius: 12px; padding: 24px;
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .m-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .m-card-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--alt); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .m-card h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+  .m-card p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* Section alt */
+  .m-section-alt { background: var(--alt); padding: 48px 32px; }
+  .m-section-soft { background: var(--soft); padding: 48px 32px; }
+
+  /* Stats */
+  .m-stats { display: flex; justify-content: center; gap: 48px; padding: 32px; }
+  .m-stat { text-align: center; }
+  .m-stat-num { font-size: 36px; font-weight: 700; color: var(--primary); }
+  .m-stat-label { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  /* Reviews */
+  .m-review {
+    background: #fff; border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .m-review-stars { color: var(--warning); font-size: 16px; margin-bottom: 8px; }
+  .m-review-text { font-size: 14px; color: var(--dark); line-height: 1.5; margin-bottom: 12px; }
+  .m-review-author { font-size: 12px; color: var(--muted); }
+
+  /* Badge */
+  .m-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+  }
+  .m-badge-success { background: rgba(22,163,74,0.1); color: var(--success); }
+  .m-badge-primary { background: rgba(32,132,215,0.1); color: var(--primary); }
+
+  /* Timeline */
+  .m-timeline { padding: 24px 32px; }
+  .m-timeline-step {
+    display: flex; gap: 16px; padding: 16px 0;
+    border-left: 2px solid var(--border); margin-left: 12px; padding-left: 24px;
+    position: relative;
+  }
+  .m-timeline-step::before {
+    content: ''; position: absolute; left: -7px; top: 20px;
+    width: 12px; height: 12px; border-radius: 50%; background: var(--border);
+  }
+  .m-timeline-step.active::before { background: var(--primary); box-shadow: 0 0 0 4px rgba(32,132,215,0.2); }
+  .m-timeline-step.done::before { background: var(--success); }
+
+  /* Devis vivant */
+  .m-devis { padding: 24px; max-width: 400px; margin: 0 auto; }
+  .m-devis-header { text-align: center; margin-bottom: 24px; }
+  .m-devis-header h2 { font-size: 22px; color: var(--dark); }
+  .m-devis-price {
+    text-align: center; padding: 24px; background: var(--alt);
+    border-radius: 12px; margin-bottom: 16px;
+  }
+  .m-devis-price .price { font-size: 36px; font-weight: 700; color: var(--dark); }
+  .m-devis-price .label { font-size: 12px; color: var(--success); font-weight: 600; }
+  .m-devis-sign {
+    width: 100%; height: 80px; border: 2px dashed var(--border);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 14px; margin-bottom: 16px;
+  }
+  .m-devis-btn {
+    width: 100%; padding: 16px; background: var(--primary); color: #fff;
+    border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+    font-family: inherit; cursor: pointer;
+  }
+
+  /* CTA Flottant */
+  .m-floating-cta {
+    position: absolute; bottom: 16px; left: 16px; right: 16px;
+    padding: 14px; background: var(--primary); color: #fff;
+    border-radius: 12px; text-align: center; font-weight: 600; font-size: 15px;
+    box-shadow: 0 4px 20px rgba(32,132,215,0.4);
+  }
+
+  /* 3D placeholder */
+  .m-3d-placeholder {
+    width: 200px; height: 200px; margin: 0 auto;
+    background: linear-gradient(135deg, var(--alt) 0%, #d1d5db 100%);
+    border-radius: 24px; display: flex; align-items: center; justify-content: center;
+    font-size: 48px; transform: perspective(600px) rotateY(-15deg) rotateX(5deg);
+    box-shadow: 20px 20px 40px rgba(0,0,0,0.08);
+  }
+
+  /* Footer */
+  .m-footer {
+    background: var(--dark); color: var(--soft); padding: 32px;
+    font-size: 13px; text-align: center;
+  }
+
+  /* Comparison grid */
+  .compare-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    max-width: 1200px; margin: 32px auto; padding: 0 24px;
+  }
+  .compare-card {
+    background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .compare-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+  .compare-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* Direction-specific overrides */
+
+  /* D1: Minimal Apple */
+  .d1 .m-hero { padding: 96px 32px; background: var(--soft); }
+  .d1 .m-hero h1 { font-size: 56px; letter-spacing: -1px; }
+
+  /* D2: Bold & Confident */
+  .d2 .m-hero { background: var(--dark); padding: 80px 32px; }
+  .d2 .m-hero h1 { color: var(--soft); font-size: 52px; }
+  .d2 .m-hero p { color: rgba(248,249,250,0.7); }
+  .d2 .m-hero-btn { border-radius: 8px; }
+
+  /* D3: Card-centric */
+  .d3 .m-hero { padding: 48px 32px; }
+  .d3 .m-hero h1 { font-size: 40px; text-align: left; }
+  .d3 .m-hero p { text-align: left; margin: 0 0 32px; }
+
+  /* D4: Split hero */
+  .d4-hero { display: flex; min-height: 400px; }
+  .d4-hero-text { flex: 1; padding: 64px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .d4-hero-visual { flex: 1; background: var(--alt); display: flex; align-items: center; justify-content: center; }
+
+  /* D5: Full-bleed sections */
+  .d5 .m-section-dark { background: var(--dark); padding: 64px 32px; color: var(--soft); }
+
+  /* D6: Dashboard-first */
+  .d6-dash { display: grid; grid-template-columns: 240px 1fr; min-height: 500px; }
+  .d6-sidebar { background: var(--dark); padding: 24px; }
+  .d6-sidebar-item {
+    padding: 10px 16px; border-radius: 8px; color: rgba(248,249,250,0.6);
+    font-size: 14px; margin-bottom: 4px; cursor: pointer;
+  }
+  .d6-sidebar-item.active { background: rgba(32,132,215,0.15); color: var(--primary); }
+  .d6-main { padding: 24px; background: var(--soft); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .mockup-row { flex-direction: column; }
+    .mockup-row .mockup-mobile { margin: 24px auto 0; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .m-cards-3 { grid-template-columns: 1fr; }
+    .d4-hero { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <span class="nav-title">DigiRepair Directions</span>
+  <button class="nav-btn active" onclick="showDirection('d1')">D1 Minimal</button>
+  <button class="nav-btn" onclick="showDirection('d2')">D2 Bold</button>
+  <button class="nav-btn" onclick="showDirection('d3')">D3 Cards</button>
+  <button class="nav-btn" onclick="showDirection('d4')">D4 Split</button>
+  <button class="nav-btn" onclick="showDirection('d5')">D5 Immersif</button>
+  <button class="nav-btn" onclick="showDirection('d6')">D6 Dashboard</button>
+  <button class="nav-btn" onclick="showDirection('compare')">Comparaison</button>
+</nav>
+
+<!-- ============================================ -->
+<!-- DIRECTION 1: Minimal Apple — Silence Visuel -->
+<!-- ============================================ -->
+<section id="d1" class="direction active">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 1</span>
+    <h2>Minimal Apple — Le Silence Parle</h2>
+    <p>Maximum d'espace blanc, une idée par section, scroll storytelling. L'approche la plus fidèle à l'inspiration Apple.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-row">
+      <div class="mockup-desktop d1">
+        <!-- Nav -->
+        <div class="m-nav">
+          <div class="m-nav-logo">Digi<span>Repair</span></div>
+          <div class="m-nav-links">
+            <a href="#">Services</a>
+            <a href="#">Tarifs</a>
+            <a href="#">Avis</a>
+            <a href="#">Contact</a>
+          </div>
+          <button class="m-nav-cta">Demander un devis</button>
+        </div>
+
+        <!-- Hero -->
+        <div class="m-hero">
+          <div class="m-3d-placeholder">📱</div>
+          <div style="height:32px"></div>
+          <h1>Votre appareil mérite<br>un expert.</h1>
+          <p>Réparation professionnelle à Haulchin. Microsoudure, écrans, batteries — avec garantie.</p>
+          <a href="#" class="m-hero-btn">Envoyer via WhatsApp</a>
+        </div>
+
+        <!-- Stats section -->
+        <div class="m-section-alt">
+          <div class="m-stats">
+            <div class="m-stat"><div class="m-stat-num">347</div><div class="m-stat-label">Appareils réparés</div></div>
+            <div class="m-stat"><div class="m-stat-num">4.9</div><div class="m-stat-label">Note Google</div></div>
+            <div class="m-stat"><div class="m-stat-num">24h</div><div class="m-stat-label">Délai moyen</div></div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="m-section-soft">
+          <div style="text-align:center;margin-bottom:32px">
+            <h2 style="font-size:28px;color:var(--dark)">Nos expertises</h2>
+          </div>
+          <div class="m-cards m-cards-3">
+            <div class="m-card">
+              <div class="m-card-icon">🔧</div>
+              <h3>Microsoudure</h3>
+              <p>Réparation de composants au niveau carte mère. Ce que les autres ne font pas.</p>
+            </div>
+            <div class="m-card">
+              <div class="m-card-icon">📱</div>
+              <h3>Écrans & Batteries</h3>
+              <p>Remplacement avec pièces certifiées. Garantie 6 mois incluse.</p>
+            </div>
+            <div class="m-card">
+              <div class="m-card-icon">💻</div>
+              <h3>PC & Consoles</h3>
+              <p>Diagnostic complet, nettoyage, upgrade. Tous les appareils.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Avis -->
+        <div class="m-section-alt">
+          <div style="text-align:center;margin-bottom:32px">
+            <h2 style="font-size:28px;color:var(--dark)">Ce qu'ils en disent</h2>
+          </div>
+          <div class="m-cards m-cards-3">
+            <div class="m-review">
+              <div class="m-review-stars">★★★★★</div>
+              <div class="m-review-text">"iPhone réparé en 1h, comme neuf. Le site m'a mis en confiance direct."</div>
+              <div class="m-review-author">Mehdi — iPhone 14 Pro</div>
+            </div>
+            <div class="m-review">
+              <div class="m-review-stars">★★★★★</div>
+              <div class="m-review-text">"Le devis en ligne était super clair. J'ai signé et choisi mon créneau en 2 minutes."</div>
+              <div class="m-review-author">Sarah — Samsung S23</div>
+            </div>
+            <div class="m-review">
+              <div class="m-review-stars">★★★★★</div>
+              <div class="m-review-text">"Transparence totale. Je voyais l'avancement en temps réel."</div>
+              <div class="m-review-author">Thomas — MacBook Air</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-footer">DigiRepair — Haulchin 59121 — Rayon 40km</div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="mockup-mobile" style="position:relative">
+        <div style="text-align:center;padding:16px 0;border-bottom:1px solid var(--border)">
+          <span style="font-weight:700;font-size:18px;color:var(--dark)">Digi<span style="color:var(--primary)">Repair</span></span>
+        </div>
+        <div style="padding:32px 8px;text-align:center">
+          <div style="font-size:32px;margin-bottom:16px">📱</div>
+          <h2 style="font-size:26px;color:var(--dark);line-height:1.15;margin-bottom:12px">Votre appareil<br>mérite un expert.</h2>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.5">Microsoudure, écrans, batteries — avec garantie.</p>
+        </div>
+        <div style="display:flex;justify-content:center;gap:24px;padding:16px;background:var(--alt);border-radius:12px;margin-bottom:16px">
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--primary)">347</div><div style="font-size:11px;color:var(--muted)">Réparés</div></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--primary)">4.9</div><div style="font-size:11px;color:var(--muted)">Note</div></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--primary)">24h</div><div style="font-size:11px;color:var(--muted)">Délai</div></div>
+        </div>
+        <div class="m-floating-cta">Contacter via WhatsApp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- DIRECTION 2: Bold & Confident — Dark Hero -->
+<!-- ============================================ -->
+<section id="d2" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 2</span>
+    <h2>Bold & Confident — Hero Sombre</h2>
+    <p>Hero sur fond sombre pour un impact maximal. Le contraste renforce le côté premium et expert. La confiance par l'audace.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-row">
+      <div class="mockup-desktop d2">
+        <!-- Nav on dark -->
+        <div class="m-nav" style="background:var(--dark);border-color:rgba(255,255,255,0.1)">
+          <div class="m-nav-logo" style="color:var(--soft)">Digi<span>Repair</span></div>
+          <div class="m-nav-links">
+            <a href="#" style="color:rgba(248,249,250,0.7)">Services</a>
+            <a href="#" style="color:rgba(248,249,250,0.7)">Tarifs</a>
+            <a href="#" style="color:rgba(248,249,250,0.7)">Avis</a>
+            <a href="#" style="color:rgba(248,249,250,0.7)">Contact</a>
+          </div>
+          <button class="m-nav-cta">Demander un devis</button>
+        </div>
+
+        <!-- Dark hero -->
+        <div class="m-hero" style="background:var(--dark);padding:80px 32px">
+          <div class="m-3d-placeholder" style="background:linear-gradient(135deg, rgba(32,132,215,0.2), rgba(31,46,83,0.5));margin-bottom:32px">📱</div>
+          <h1 style="color:var(--soft);font-size:52px">Microsoudure.<br>Précision.<br>Garantie.</h1>
+          <p style="color:rgba(248,249,250,0.6)">Le spécialiste de la réparation électronique à Haulchin et ses environs.</p>
+          <a href="#" class="m-hero-btn">Envoyer via WhatsApp</a>
+        </div>
+
+        <!-- Stats bright -->
+        <div class="m-section-soft">
+          <div class="m-stats">
+            <div class="m-stat"><div class="m-stat-num">347</div><div class="m-stat-label">Appareils réparés</div></div>
+            <div class="m-stat"><div class="m-stat-num">4.9★</div><div class="m-stat-label">Avis Google</div></div>
+            <div class="m-stat"><div class="m-stat-num">&lt;24h</div><div class="m-stat-label">Délai moyen</div></div>
+            <div class="m-stat"><div class="m-stat-num">6 mois</div><div class="m-stat-label">Garantie</div></div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="m-section-alt">
+          <div class="m-cards m-cards-3">
+            <div class="m-card" style="border-left:3px solid var(--primary)">
+              <h3>Microsoudure</h3>
+              <p>Réparation au niveau composant. Carte mère, connecteurs, circuits intégrés.</p>
+              <div style="margin-top:12px"><span class="m-badge m-badge-primary">Expert</span></div>
+            </div>
+            <div class="m-card" style="border-left:3px solid var(--success)">
+              <h3>Écrans & Batteries</h3>
+              <p>Pièces certifiées, remplacement en 1h, garantie 6 mois.</p>
+              <div style="margin-top:12px"><span class="m-badge m-badge-success">Rapide</span></div>
+            </div>
+            <div class="m-card" style="border-left:3px solid var(--warning)">
+              <h3>PC & Consoles</h3>
+              <p>Diagnostic, nettoyage, upgrade. PlayStation, Xbox, Switch.</p>
+              <div style="margin-top:12px"><span class="m-badge" style="background:rgba(245,158,11,0.1);color:var(--warning)">Polyvalent</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-footer">DigiRepair — Haulchin 59121</div>
+      </div>
+
+      <div class="mockup-mobile" style="position:relative;background:var(--dark);border-color:#111">
+        <div style="text-align:center;padding:16px 0">
+          <span style="font-weight:700;font-size:18px;color:var(--soft)">Digi<span style="color:var(--primary)">Repair</span></span>
+        </div>
+        <div style="padding:24px 8px;text-align:center">
+          <div style="font-size:32px;margin-bottom:16px">📱</div>
+          <h2 style="font-size:28px;color:var(--soft);line-height:1.1;margin-bottom:12px">Microsoudure.<br>Précision.</h2>
+          <p style="font-size:14px;color:rgba(248,249,250,0.5);margin-bottom:24px">Spécialiste réparation à Haulchin.</p>
+          <div style="display:flex;gap:8px;margin-bottom:16px">
+            <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--primary)">347</div>
+              <div style="font-size:10px;color:rgba(248,249,250,0.4)">Réparés</div>
+            </div>
+            <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--primary)">4.9★</div>
+              <div style="font-size:10px;color:rgba(248,249,250,0.4)">Google</div>
+            </div>
+          </div>
+        </div>
+        <div class="m-floating-cta">WhatsApp — Devis gratuit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- DIRECTION 3: Card-Centric — Dense & Efficace -->
+<!-- ============================================ -->
+<section id="d3" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 3</span>
+    <h2>Card-Centric — Dense & Efficace</h2>
+    <p>Informations accessibles rapidement via des cards bien organisées. Moins d'espace blanc, plus de contenu visible. Pour Nathalie qui veut tout voir.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-desktop d3">
+      <div class="m-nav">
+        <div class="m-nav-logo">Digi<span>Repair</span></div>
+        <div class="m-nav-links">
+          <a href="#">Services</a>
+          <a href="#">Tarifs</a>
+          <a href="#">Avis</a>
+          <a href="#">FAQ</a>
+          <a href="#">Contact</a>
+        </div>
+        <button class="m-nav-cta">WhatsApp</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <div style="padding:48px 32px;display:flex;flex-direction:column;justify-content:center">
+          <span class="m-badge m-badge-success" style="margin-bottom:12px;align-self:flex-start">Ouvert aujourd'hui</span>
+          <h1 style="font-size:36px;color:var(--dark);line-height:1.15;margin-bottom:12px">Réparation experte<br>à Haulchin</h1>
+          <p style="font-size:16px;color:var(--muted);margin-bottom:24px;line-height:1.6">Smartphones, tablettes, PC, consoles. Microsoudure et remplacement de pièces. Garantie 6 mois.</p>
+          <div style="display:flex;gap:12px">
+            <a href="#" class="m-hero-btn" style="font-size:14px;padding:12px 24px">Demander un devis</a>
+            <a href="#" class="m-hero-btn" style="font-size:14px;padding:12px 24px;background:transparent;color:var(--dark);border:1px solid var(--border)">Voir les tarifs</a>
+          </div>
+        </div>
+        <div style="background:var(--alt);display:flex;align-items:center;justify-content:center;padding:48px">
+          <div class="m-3d-placeholder">📱</div>
+        </div>
+      </div>
+
+      <!-- Dense cards grid -->
+      <div style="padding:32px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div class="m-card" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">📱</div>
+            <h3 style="font-size:15px">iPhone</h3>
+            <p style="font-size:12px">Dès 49€</p>
+          </div>
+          <div class="m-card" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">📱</div>
+            <h3 style="font-size:15px">Samsung</h3>
+            <p style="font-size:12px">Dès 39€</p>
+          </div>
+          <div class="m-card" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">💻</div>
+            <h3 style="font-size:15px">MacBook</h3>
+            <p style="font-size:12px">Dès 89€</p>
+          </div>
+          <div class="m-card" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">🎮</div>
+            <h3 style="font-size:15px">Consoles</h3>
+            <p style="font-size:12px">Dès 59€</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews dense -->
+      <div class="m-section-alt" style="padding:24px 32px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-size:20px;color:var(--dark)">Avis clients</h2>
+          <span style="font-size:14px;color:var(--primary);font-weight:600">4.9★ — 127 avis</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="m-review" style="padding:16px">
+            <div class="m-review-stars" style="font-size:13px">★★★★★</div>
+            <div class="m-review-text" style="font-size:13px">"Rapide et pro. Mon iPhone réparé en 1h."</div>
+            <div class="m-review-author">Mehdi</div>
+          </div>
+          <div class="m-review" style="padding:16px">
+            <div class="m-review-stars" style="font-size:13px">★★★★★</div>
+            <div class="m-review-text" style="font-size:13px">"Le devis en ligne est super pratique."</div>
+            <div class="m-review-author">Sarah</div>
+          </div>
+          <div class="m-review" style="padding:16px">
+            <div class="m-review-stars" style="font-size:13px">★★★★★</div>
+            <div class="m-review-text" style="font-size:13px">"Transparence totale sur la réparation."</div>
+            <div class="m-review-author">Thomas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-footer">DigiRepair — Haulchin 59121</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- DIRECTION 4: Split Hero — 50/50 Équilibré -->
+<!-- ============================================ -->
+<section id="d4" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 4</span>
+    <h2>Split Hero — Équilibre Texte / Visuel</h2>
+    <p>Layout 50/50 qui donne autant d'importance au message qu'au visuel 3D. Approche magazine, élégante et structurée.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-desktop">
+      <div class="m-nav">
+        <div class="m-nav-logo">Digi<span>Repair</span></div>
+        <div class="m-nav-links">
+          <a href="#">Services</a>
+          <a href="#">Tarifs</a>
+          <a href="#">Avis</a>
+          <a href="#">Contact</a>
+        </div>
+        <button class="m-nav-cta">Demander un devis</button>
+      </div>
+
+      <div class="d4-hero">
+        <div class="d4-hero-text">
+          <span class="m-badge m-badge-success" style="margin-bottom:16px;align-self:flex-start">Haulchin & environs — 40km</span>
+          <h1 style="font-size:44px;color:var(--dark);line-height:1.1;margin-bottom:16px">La microsoudure,<br>c'est notre métier.</h1>
+          <p style="font-size:18px;color:var(--muted);line-height:1.6;margin-bottom:32px">Réparation professionnelle de smartphones, PC et consoles. Devis en 2 minutes, garantie 6 mois.</p>
+          <div style="display:flex;gap:12px;margin-bottom:32px">
+            <a href="#" class="m-hero-btn">Envoyer via WhatsApp</a>
+          </div>
+          <div style="display:flex;gap:32px">
+            <div><span style="font-weight:700;color:var(--dark);font-size:20px">347</span><br><span style="font-size:12px;color:var(--muted)">Réparés</span></div>
+            <div><span style="font-weight:700;color:var(--dark);font-size:20px">4.9★</span><br><span style="font-size:12px;color:var(--muted)">Google</span></div>
+            <div><span style="font-weight:700;color:var(--dark);font-size:20px">6 mois</span><br><span style="font-size:12px;color:var(--muted)">Garantie</span></div>
+          </div>
+        </div>
+        <div class="d4-hero-visual">
+          <div class="m-3d-placeholder" style="width:280px;height:280px;font-size:72px">📱</div>
+        </div>
+      </div>
+
+      <!-- Alternating sections -->
+      <div class="m-section-alt" style="display:flex;gap:48px;align-items:center;padding:64px 48px">
+        <div style="flex:1">
+          <h2 style="font-size:28px;color:var(--dark);margin-bottom:16px">Devis en ligne.<br>Signature au doigt.</h2>
+          <p style="font-size:16px;color:var(--muted);line-height:1.6">Recevez votre devis personnalisé par WhatsApp. Prix final, garantie incluse, créneau réservé — en 2 minutes.</p>
+        </div>
+        <div style="flex:1;display:flex;justify-content:center">
+          <div style="width:250px;background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06)">
+            <div style="text-align:center;margin-bottom:16px;font-size:14px;color:var(--dark);font-weight:600">Bonjour Mehdi !</div>
+            <div style="background:var(--alt);border-radius:8px;padding:16px;text-align:center;margin-bottom:12px">
+              <div style="font-size:24px;font-weight:700;color:var(--dark)">89 €</div>
+              <div style="font-size:11px;color:var(--success);font-weight:600">PRIX FINAL</div>
+            </div>
+            <div style="height:48px;border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);margin-bottom:12px">Signez ici</div>
+            <div style="background:var(--primary);color:#fff;text-align:center;padding:10px;border-radius:8px;font-size:13px;font-weight:600">Confirmer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-footer">DigiRepair — Haulchin 59121</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- DIRECTION 5: Immersif — Full Bleed Storytelling -->
+<!-- ============================================ -->
+<section id="d5" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 5</span>
+    <h2>Immersif — Storytelling Plein Écran</h2>
+    <p>Sections pleine largeur qui alternent light/dark. Expérience narrative forte, scroll-driven. Maximum d'impact visuel avec la 3D.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-desktop d5">
+      <!-- Transparent nav -->
+      <div class="m-nav" style="background:transparent;border:none;position:absolute;z-index:10;left:0;right:0">
+        <div class="m-nav-logo" style="color:var(--soft)">Digi<span>Repair</span></div>
+        <div class="m-nav-links">
+          <a href="#" style="color:rgba(248,249,250,0.7)">Services</a>
+          <a href="#" style="color:rgba(248,249,250,0.7)">Tarifs</a>
+          <a href="#" style="color:rgba(248,249,250,0.7)">Avis</a>
+        </div>
+        <button class="m-nav-cta">WhatsApp</button>
+      </div>
+
+      <!-- Full bleed dark hero -->
+      <div style="background:var(--dark);padding:120px 48px 80px;text-align:center;position:relative">
+        <div class="m-3d-placeholder" style="background:linear-gradient(135deg, rgba(32,132,215,0.15), rgba(31,46,83,0.3));width:240px;height:240px;font-size:64px;margin-bottom:48px">📱</div>
+        <h1 style="font-size:56px;font-weight:700;color:var(--soft);line-height:1.05;letter-spacing:-1.5px">Réparation.<br>Précision.<br>Confiance.</h1>
+        <p style="font-size:18px;color:rgba(248,249,250,0.5);margin-top:24px;max-width:400px;margin-left:auto;margin-right:auto">Microsoudure experte à Haulchin et ses environs.</p>
+      </div>
+
+      <!-- Full bleed white - stats -->
+      <div style="background:var(--soft);padding:64px 48px">
+        <div class="m-stats" style="justify-content:space-around;max-width:800px;margin:0 auto">
+          <div class="m-stat"><div class="m-stat-num" style="font-size:48px">347</div><div class="m-stat-label">appareils réparés</div></div>
+          <div style="width:1px;background:var(--border);align-self:stretch"></div>
+          <div class="m-stat"><div class="m-stat-num" style="font-size:48px">4.9</div><div class="m-stat-label">note Google</div></div>
+          <div style="width:1px;background:var(--border);align-self:stretch"></div>
+          <div class="m-stat"><div class="m-stat-num" style="font-size:48px">6</div><div class="m-stat-label">mois de garantie</div></div>
+        </div>
+      </div>
+
+      <!-- Full bleed dark - process -->
+      <div style="background:var(--dark);padding:64px 48px;text-align:center">
+        <h2 style="font-size:32px;color:var(--soft);margin-bottom:48px">Comment ça marche</h2>
+        <div style="display:flex;justify-content:center;gap:64px;max-width:800px;margin:0 auto">
+          <div style="text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(32,132,215,0.15);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">1</div>
+            <div style="color:var(--soft);font-weight:600;margin-bottom:4px">Contactez</div>
+            <div style="color:rgba(248,249,250,0.4);font-size:13px">Via WhatsApp</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(32,132,215,0.15);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">2</div>
+            <div style="color:var(--soft);font-weight:600;margin-bottom:4px">Signez</div>
+            <div style="color:rgba(248,249,250,0.4);font-size:13px">Devis en ligne</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(32,132,215,0.15);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">3</div>
+            <div style="color:var(--soft);font-weight:600;margin-bottom:4px">Suivez</div>
+            <div style="color:rgba(248,249,250,0.4);font-size:13px">En temps réel</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(22,163,74,0.15);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">✓</div>
+            <div style="color:var(--soft);font-weight:600;margin-bottom:4px">Récupérez</div>
+            <div style="color:rgba(248,249,250,0.4);font-size:13px">Comme neuf</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full bleed white - avis -->
+      <div style="background:var(--soft);padding:64px 48px;text-align:center">
+        <h2 style="font-size:32px;color:var(--dark);margin-bottom:8px">Ils nous font confiance.</h2>
+        <p style="color:var(--muted);margin-bottom:32px">127 avis Google — 4.9 étoiles</p>
+        <div class="m-cards m-cards-3" style="padding:0;max-width:900px;margin:0 auto">
+          <div class="m-review"><div class="m-review-stars">★★★★★</div><div class="m-review-text">"Comme neuf. Service exceptionnel."</div><div class="m-review-author">Mehdi</div></div>
+          <div class="m-review"><div class="m-review-stars">★★★★★</div><div class="m-review-text">"Transparent du début à la fin."</div><div class="m-review-author">Sarah</div></div>
+          <div class="m-review"><div class="m-review-stars">★★★★★</div><div class="m-review-text">"Le meilleur réparateur du coin."</div><div class="m-review-author">Thomas</div></div>
+        </div>
+      </div>
+
+      <div class="m-footer">DigiRepair — Haulchin 59121</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- DIRECTION 6: Dashboard-First — Back-Office -->
+<!-- ============================================ -->
+<section id="d6" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Direction 6</span>
+    <h2>Dashboard-First — Le Back-Office de Favor</h2>
+    <p>Focus sur l'expérience admin : sidebar navigation, cards dossiers, actions rapides. Calqué sur les 7 sous-dossiers existants.</p>
+  </div>
+
+  <div class="mockup-frame">
+    <div class="mockup-row">
+      <div class="mockup-desktop">
+        <div class="d6-dash">
+          <div class="d6-sidebar">
+            <div style="font-weight:700;font-size:16px;color:var(--soft);margin-bottom:24px;padding:0 16px">Digi<span style="color:var(--primary)">Repair</span></div>
+            <div class="d6-sidebar-item active">📋 Dossiers</div>
+            <div class="d6-sidebar-item">📝 Devis</div>
+            <div class="d6-sidebar-item">🧾 Factures</div>
+            <div class="d6-sidebar-item">📅 Agenda</div>
+            <div class="d6-sidebar-item">📊 Statistiques</div>
+            <div class="d6-sidebar-item">📦 Référentiel</div>
+            <div class="d6-sidebar-item">⚙️ Réglages</div>
+          </div>
+          <div class="d6-main">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+              <h2 style="font-size:22px;color:var(--dark)">Dossiers en cours</h2>
+              <button class="m-nav-cta" style="font-size:13px;padding:8px 16px">+ Nouveau devis</button>
+            </div>
+
+            <!-- Quick stats -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+              <div style="background:var(--alt);border-radius:8px;padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700;color:var(--primary)">5</div>
+                <div style="font-size:12px;color:var(--muted)">En cours</div>
+              </div>
+              <div style="background:var(--alt);border-radius:8px;padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700;color:var(--warning)">2</div>
+                <div style="font-size:12px;color:var(--muted)">Attente pièce</div>
+              </div>
+              <div style="background:var(--alt);border-radius:8px;padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700;color:var(--success)">3</div>
+                <div style="font-size:12px;color:var(--muted)">Prêts</div>
+              </div>
+              <div style="background:var(--alt);border-radius:8px;padding:16px;text-align:center">
+                <div style="font-size:24px;font-weight:700;color:var(--dark)">347</div>
+                <div style="font-size:12px;color:var(--muted)">Total</div>
+              </div>
+            </div>
+
+            <!-- Dossier cards -->
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="m-card" style="display:flex;align-items:center;gap:16px;padding:16px">
+                <div style="width:40px;height:40px;border-radius:8px;background:var(--alt);display:flex;align-items:center;justify-content:center">📱</div>
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:14px;color:var(--dark)">Mehdi — iPhone 14 Pro</div>
+                  <div style="font-size:12px;color:var(--muted)">Écran cassé · Devis signé · Créneau demain 10h</div>
+                </div>
+                <span class="m-badge m-badge-primary">En réparation</span>
+              </div>
+              <div class="m-card" style="display:flex;align-items:center;gap:16px;padding:16px">
+                <div style="width:40px;height:40px;border-radius:8px;background:var(--alt);display:flex;align-items:center;justify-content:center">💻</div>
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:14px;color:var(--dark)">Sarah — MacBook Air M2</div>
+                  <div style="font-size:12px;color:var(--muted)">Batterie gonflée · Pièce commandée</div>
+                </div>
+                <span class="m-badge" style="background:rgba(245,158,11,0.1);color:var(--warning)">Attente pièce</span>
+              </div>
+              <div class="m-card" style="display:flex;align-items:center;gap:16px;padding:16px">
+                <div style="width:40px;height:40px;border-radius:8px;background:var(--alt);display:flex;align-items:center;justify-content:center">🎮</div>
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:14px;color:var(--dark)">Lucas — PS5</div>
+                  <div style="font-size:12px;color:var(--muted)">Ventilateur bruyant · Réparé · Prêt à récupérer</div>
+                </div>
+                <span class="m-badge m-badge-success">Prêt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile dashboard -->
+      <div class="mockup-mobile" style="position:relative">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin-bottom:16px">
+          <span style="font-weight:700;font-size:16px;color:var(--dark)">Digi<span style="color:var(--primary)">Repair</span></span>
+          <span style="font-size:20px">☰</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">
+          <div style="background:var(--alt);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:var(--primary)">5</div>
+            <div style="font-size:10px;color:var(--muted)">En cours</div>
+          </div>
+          <div style="background:var(--alt);border-radius:8px;padding:12px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:var(--success)">3</div>
+            <div style="font-size:10px;color:var(--muted)">Prêts</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px">
+            <span>📱</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:var(--dark)">Mehdi — iPhone 14</div>
+              <div style="font-size:11px;color:var(--muted)">En réparation</div>
+            </div>
+            <span class="m-badge m-badge-primary" style="font-size:10px;padding:2px 6px">→</span>
+          </div>
+          <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px">
+            <span>💻</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:var(--dark)">Sarah — MacBook</div>
+              <div style="font-size:11px;color:var(--muted)">Attente pièce</div>
+            </div>
+            <span class="m-badge" style="background:rgba(245,158,11,0.1);color:var(--warning);font-size:10px;padding:2px 6px">→</span>
+          </div>
+        </div>
+        <div class="m-floating-cta">+ Nouveau devis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- COMPARISON -->
+<!-- ============================================ -->
+<section id="compare" class="direction">
+  <div class="direction-header">
+    <span class="direction-tag">Comparaison</span>
+    <h2>Quelle direction pour DigiRepair ?</h2>
+    <p>Chaque direction a ses forces. Tu peux choisir une direction ou combiner des éléments.</p>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <h4>D1 — Minimal Apple</h4>
+      <p><strong>Forces :</strong> Maximum de silence visuel, parallèle Apple direct, scroll storytelling pur, espace blanc 70%</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Mehdi (impression wow), Thomas (SEO élégant)</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Peut paraître trop vide pour Nathalie qui cherche des infos</p>
+    </div>
+    <div class="compare-card">
+      <h4>D2 — Bold & Confident</h4>
+      <p><strong>Forces :</strong> Impact immédiat du hero sombre, contraste fort, feeling premium/expert, badges couleur</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Mehdi (dark = moderne), Favor (image expert)</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Hero sombre peut rebuter les profils plus conservateurs</p>
+    </div>
+    <div class="compare-card">
+      <h4>D3 — Card-Centric</h4>
+      <p><strong>Forces :</strong> Dense en infos, prix visibles vite, structure claire, navigation efficace</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Nathalie (voit tout), Thomas (infos rapides)</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Moins premium, moins d'espace pour le wow 3D</p>
+    </div>
+    <div class="compare-card">
+      <h4>D4 — Split Hero</h4>
+      <p><strong>Forces :</strong> Équilibre texte/visuel, preview devis vivant dans le hero, stats intégrées, élégant</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Tous les profils (compromis), preview du tunnel de conversion</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Moins d'impact que D1/D2, plus conventionnel</p>
+    </div>
+    <div class="compare-card">
+      <h4>D5 — Immersif Full-Bleed</h4>
+      <p><strong>Forces :</strong> Alternance light/dark dramatique, storytelling fort, "Comment ça marche" impactant, 3D mise en valeur</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Mehdi (expérience immersive), SEO (sections riches)</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Performance 3D sur sections dark, complexité dev</p>
+    </div>
+    <div class="compare-card">
+      <h4>D6 — Dashboard Admin</h4>
+      <p><strong>Forces :</strong> Sidebar claire, cards dossiers efficaces, stats visibles, mobile adapté atelier</p>
+      <p style="margin-top:8px"><strong>Pour :</strong> Favor (back-office 3 clics), productivité quotidienne</p>
+      <p style="margin-top:8px"><strong>Risque :</strong> Direction back-office, pas applicable à la vitrine</p>
+    </div>
+  </div>
+
+  <div style="max-width:800px;margin:32px auto;padding:0 24px;text-align:center">
+    <div style="background:rgba(32,132,215,0.1);border-radius:12px;padding:24px;border:1px solid rgba(32,132,215,0.2)">
+      <h3 style="font-size:18px;margin-bottom:8px">Ma recommandation</h3>
+      <p style="font-size:14px;color:var(--muted);line-height:1.6">
+        <strong>D5 (Immersif)</strong> pour la vitrine publique + <strong>D6 (Dashboard)</strong> pour le back-office.<br>
+        D5 maximise l'impact 3D et le scroll storytelling Apple-like sur les pages publiques.<br>
+        D6 donne à Favor son back-office 3 clics avec les 7 modules en sidebar.<br>
+        Les sections alternées dark/light de D5 créent le contraste premium que tu veux.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+function showDirection(id) {
+  document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
