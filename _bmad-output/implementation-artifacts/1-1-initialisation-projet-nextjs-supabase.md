@@ -1,6 +1,6 @@
 # Story 1.1: Initialisation du projet Next.js + Supabase
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -26,9 +26,9 @@ So that **j'ai une base fonctionnelle avec TypeScript, Tailwind, shadcn/ui et au
   - [x] 1.2 Vérifier que le projet démarre en local (`npm run build` OK)
   - [x] 1.3 Vérifier la présence de : App Router (`/app`), TypeScript strict (`tsconfig.json`), Tailwind CSS, shadcn/ui (`components.json`), Supabase client (`lib/supabase/`)
 
-- [ ] **Task 2 : Configurer les variables d'environnement** (AC: #2) — HALT: nécessite credentials Supabase de l'utilisateur
-  - [ ] 2.1 Créer un projet Supabase (ou utiliser un existant) — région EU (Paris/Frankfurt)
-  - [ ] 2.2 Remplir `.env.local` avec `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- [x] **Task 2 : Configurer les variables d'environnement** (AC: #2)
+  - [x] 2.1 Créer un projet Supabase — ghtoxjdkyfmsjesfwdcc.supabase.co
+  - [x] 2.2 Remplir `.env.local` avec `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
   - [x] 2.3 Créer/mettre à jour `.env.example` avec les clés (sans valeurs) pour documentation — déjà présent dans le starter
 
 - [x] **Task 3 : Copier les assets depuis docs/ vers public/** (AC: #3)
@@ -75,11 +75,11 @@ So that **j'ai une base fonctionnelle avec TypeScript, Tailwind, shadcn/ui et au
   - [x] 8.2 Créé `playwright.config.ts` : baseURL localhost:3000, dossier `e2e/`, projets Desktop Chrome + Mobile Chrome
   - [x] 8.3 Test E2E placeholder créé (`e2e/smoke.spec.ts`)
 
-- [ ] **Task 9 : Configurer le déploiement Vercel** (AC: #8) — HALT: nécessite GitHub repo + Vercel setup par l'utilisateur
-  - [ ] 9.1 Initialiser le repo Git + push sur GitHub
-  - [ ] 9.2 Connecter le repo à Vercel
-  - [ ] 9.3 Configurer les variables d'environnement Supabase dans Vercel
-  - [ ] 9.4 Vérifier que le build + deploy réussit
+- [x] **Task 9 : Configurer le déploiement Vercel** (AC: #8)
+  - [x] 9.1 Initialiser le repo Git + push sur GitHub
+  - [x] 9.2 Connecter le repo à Vercel
+  - [x] 9.3 Configurer les variables d'environnement Supabase dans Vercel
+  - [x] 9.4 Vérifier que le build + deploy réussit
 
 - [x] **Task 10 : Préparer la structure projet** (AC: #1)
   - [x] 10.1 Dossiers créés : (vitrine), (admin), (client), components/custom, components/layout, lib/validations, lib/actions, lib/utils, lib/constants, types, supabase/migrations, supabase/functions, e2e
@@ -298,7 +298,8 @@ Claude Opus 4.6
 
 ### Change Log
 
-- 2026-02-20: Story implementation — 8/10 tasks completed. Tasks 2 & 9 require user credentials/setup.
+- 2026-02-20: Story implementation — 10/10 tasks completed. All ACs satisfied.
+- 2026-02-20: Code review — 4 MEDIUM issues found. M2 (vitest ESM), M3 (placeholder tests), M4 (File List) fixed. M1 (eslint-config-next version) reclassified LOW (starter intentional choice). Build/Lint/Tests OK. Story → done.
 
 ### File List
 
