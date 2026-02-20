@@ -1,0 +1,95 @@
+# generated: 2026-02-20
+# project: DigiRepair
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-02-20
+project: DigiRepair
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 1: Fondation Projet & Infrastructure
+  epic-1: in-progress
+  1-1-initialisation-projet-nextjs-supabase: in-progress
+  1-2-schema-db-fondation-auth-duale: backlog
+  1-3-rls-policies-isolation-donnees: backlog
+  epic-1-retrospective: optional
+
+  # Epic 2: Vitrine Publique & SEO
+  epic-2: backlog
+  2-1-homepage-layout-public: backlog
+  2-2-pages-seo-couche-1-categorie-ville: backlog
+  2-3-pages-seo-couche-2-marque-piece-modele-ville: backlog
+  2-4-blog-faq: backlog
+  2-5-page-a-propos-mentions-legales: backlog
+  2-6-scene-3d-vitrine: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: Devis Vivant & Conversion
+  epic-3: backlog
+  3-1-page-devis-vivant-consultation: backlog
+  3-2-signature-electronique: backlog
+  3-3-choix-creneau-calendrier: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: Back-Office Devis & Dossiers
+  epic-4: backlog
+  4-1-referentiel-marques-modeles-pieces-villes: backlog
+  4-2-creation-devis-rapide: backlog
+  4-3-envoi-lien-devis-popup-copier: backlog
+  4-4-dashboard-dossiers-gestion-creneaux: backlog
+  epic-4-retrospective: optional
+
+  # Epic 5: Suivi Réparation Temps Réel
+  epic-5: backlog
+  5-1-timeline-suivi-client: backlog
+  5-2-mise-a-jour-statut-admin: backlog
+  5-3-upload-photos-reparation: backlog
+  5-4-notifications-admin-temps-reel: backlog
+  epic-5-retrospective: optional
+
+  # Epic 6: Facturation & Comptabilité
+  epic-6: backlog
+  6-1-generation-facture-conforme: backlog
+  6-2-livre-recettes-export: backlog
+  6-3-association-factures-fournisseur: backlog
+  epic-6-retrospective: optional
+
+  # Epic 7: Notifications & Relances
+  epic-7: backlog
+  7-1-systeme-messages-pre-formates: backlog
+  7-2-badges-relances-dashboard: backlog
+  7-3-demande-avis-google: backlog
+  epic-7-retrospective: optional

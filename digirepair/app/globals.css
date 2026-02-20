@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* DigiRepair Design System */
+    /* Primary: #2084D7 → hsl(207, 74%, 48%) — CTA uniquement */
+    --background: 210 20% 98%; /* #F8F9FA — soft */
+    --foreground: 222 47% 22%; /* #1F2E53 — dark */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 22%;
+    --primary: 207 74% 48%; /* #2084D7 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 91%; /* #E8ECF1 — alt */
+    --secondary-foreground: 222 47% 22%;
+    --muted: 220 14% 91%; /* #E8ECF1 */
+    --muted-foreground: 215 14% 46%; /* #6B7280 */
+    --accent: 220 14% 91%;
+    --accent-foreground: 222 47% 22%;
+    --destructive: 0 72% 51%; /* #DC2626 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 14% 91%;
+    --input: 220 14% 91%;
+    --ring: 207 74% 48%; /* #2084D7 — focus ring */
+    --chart-1: 207 74% 48%;
+    --chart-2: 142 71% 45%; /* #16A34A success */
+    --chart-3: 38 92% 50%; /* #F59E0B warning */
+    --chart-4: 0 72% 51%; /* #DC2626 error */
+    --chart-5: 222 47% 22%;
+    --radius: 0.5rem;
+
+    /* DigiRepair custom tokens */
+    --color-primary: #2084D7;
+    --color-dark: #1F2E53;
+    --color-soft: #F8F9FA;
+    --color-alt: #E8ECF1;
+    --color-success: #16A34A;
+    --color-warning: #F59E0B;
+    --color-error: #DC2626;
+    --color-info: #2084D7;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 20% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 20% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 207 74% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 47% 18%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 222 47% 18%;
+    --muted-foreground: 215 14% 65%;
+    --accent: 222 47% 18%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 47% 18%;
+    --input: 222 47% 18%;
+    --ring: 207 74% 48%;
+    --chart-1: 207 74% 55%;
+    --chart-2: 142 71% 50%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 0 72% 55%;
+    --chart-5: 210 20% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
