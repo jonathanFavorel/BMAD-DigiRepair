@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { href: "/#services", label: "Services" },
@@ -24,7 +24,7 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo.svg"
+            src="/logo-color.svg"
             alt="DigiRepair"
             width={140}
             height={32}
@@ -89,10 +89,7 @@ export function Header() {
               </Link>
             ))}
             <Button asChild className="mt-4">
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
                 Nous contacter
               </Link>
             </Button>
