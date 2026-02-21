@@ -26,7 +26,7 @@ export function Header() {
           <Image
             src="/logo-color.svg"
             alt="DigiRepair"
-            width={50}
+            width={40}
             height={32}
             priority
           />
