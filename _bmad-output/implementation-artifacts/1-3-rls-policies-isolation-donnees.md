@@ -1,6 +1,6 @@
 # Story 1.3: RLS Policies & Isolation données
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -21,56 +21,56 @@ So that **chaque client ne peut accéder qu'à ses propres données et l'admin v
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1 : Compléter les RLS policies sur `clients`** (AC: #1, #2, #4)
-  - [ ] 1.1 Créer migration `supabase/migrations/20260220100003_rls_policies_complete.sql`
-  - [ ] 1.2 Remplacer les policies temporaires de Story 1.2 par des policies CRUD complètes :
+- [x] **Task 1 : Compléter les RLS policies sur `clients`** (AC: #1, #2, #4)
+  - [x]1.1 Créer migration `supabase/migrations/20260220100003_rls_policies_complete.sql`
+  - [x]1.2 Remplacer les policies temporaires de Story 1.2 par des policies CRUD complètes :
     - `select_clients_own` : client voit son propre row (`auth.uid() = id`) — EXISTE DÉJÀ
     - `update_clients_own` : client modifie son propre row (`auth.uid() = id`) — EXISTE DÉJÀ
     - `select_clients_admin` : admin voit tous les clients — EXISTE DÉJÀ (déplacé en migration 001)
     - `update_clients_admin` : admin peut modifier tout client — NOUVEAU
     - `delete_clients_admin` : admin peut supprimer un client — NOUVEAU
-  - [ ] 1.3 Vérifier qu'aucune policy INSERT n'est nécessaire sur `clients` (le trigger `handle_new_user` utilise `SECURITY DEFINER`)
-  - [ ] 1.4 Bloquer tout accès anonyme (pas de policy sans `auth.uid()`)
+  - [x]1.3 Vérifier qu'aucune policy INSERT n'est nécessaire sur `clients` (le trigger `handle_new_user` utilise `SECURITY DEFINER`)
+  - [x]1.4 Bloquer tout accès anonyme (pas de policy sans `auth.uid()`)
 
-- [ ] **Task 2 : Compléter les RLS policies sur `admin_users`** (AC: #2, #3, #4)
-  - [ ] 2.1 Dans la même migration, ajouter les policies complètes :
+- [x] **Task 2 : Compléter les RLS policies sur `admin_users`** (AC: #2, #3, #4)
+  - [x]2.1 Dans la même migration, ajouter les policies complètes :
     - `select_admin_users_admin` : admin voit les admin_users — EXISTE DÉJÀ
     - `insert_admin_users_admin` : admin peut ajouter un admin — NOUVEAU
     - `update_admin_users_admin` : admin peut modifier un admin — NOUVEAU
     - `delete_admin_users_admin` : admin peut supprimer un admin — NOUVEAU
-  - [ ] 2.2 Vérifier que les non-admins ne voient rien dans `admin_users` (0 rows)
+  - [x]2.2 Vérifier que les non-admins ne voient rien dans `admin_users` (0 rows)
 
-- [ ] **Task 3 : Créer les helpers de test RLS** (AC: #5, #6)
-  - [ ] 3.1 Créer `lib/supabase/__tests__/rls-test-helpers.ts` avec fonctions utilitaires :
+- [x] **Task 3 : Créer les helpers de test RLS** (AC: #5, #6)
+  - [x]3.1 Créer `lib/supabase/__tests__/rls-test-helpers.ts` avec fonctions utilitaires :
     - `createTestSupabaseClient(userId)` : simule un client Supabase avec un JWT pour un userId donné
     - Pattern pour vérifier SELECT/INSERT/UPDATE/DELETE par rôle
-  - [ ] 3.2 Documenter le pattern pour que les futures stories puissent réutiliser les helpers
+  - [x]3.2 Documenter le pattern pour que les futures stories puissent réutiliser les helpers
 
-- [ ] **Task 4 : Écrire les tests d'isolation RLS** (AC: #1, #2, #3, #4, #5)
-  - [ ] 4.1 Créer `lib/supabase/__tests__/rls-isolation.test.ts` avec les tests :
+- [x] **Task 4 : Écrire les tests d'isolation RLS** (AC: #1, #2, #3, #4, #5)
+  - [x]4.1 Créer `lib/supabase/__tests__/rls-isolation.test.ts` avec les tests :
     - Test 1 : Un client ne peut SELECT que son propre row dans `clients`
     - Test 2 : Un client ne peut UPDATE que son propre row
     - Test 3 : Un client ne peut pas voir les données d'un autre client
     - Test 4 : Un non-admin ne peut pas voir `admin_users`
     - Test 5 : Un admin peut voir tous les `clients`
     - Test 6 : Un utilisateur anonyme ne voit rien
-  - [ ] 4.2 Les tests peuvent être des tests unitaires avec mock OU des tests d'intégration si Supabase est lié
-  - [ ] 4.3 Pour le MVP sans connexion Supabase active, créer des tests qui vérifient la LOGIQUE des policies (pattern SQL assertions)
+  - [x]4.2 Les tests peuvent être des tests unitaires avec mock OU des tests d'intégration si Supabase est lié
+  - [x]4.3 Pour le MVP sans connexion Supabase active, créer des tests qui vérifient la LOGIQUE des policies (pattern SQL assertions)
 
-- [ ] **Task 5 : Documenter le pattern RLS pour les futures tables** (AC: #6)
-  - [ ] 5.1 Ajouter dans les Dev Notes de cette story le pattern RLS standard à suivre pour chaque nouvelle table
-  - [ ] 5.2 Documenter les Data Boundaries de l'architecture :
+- [x] **Task 5 : Documenter le pattern RLS pour les futures tables** (AC: #6)
+  - [x]5.1 Ajouter dans les Dev Notes de cette story le pattern RLS standard à suivre pour chaque nouvelle table
+  - [x]5.2 Documenter les Data Boundaries de l'architecture :
     - `referentiel_*` → SELECT public (anon + auth), CRUD admin
     - `repair_cases` → SELECT/UPDATE par `client_id` pour client, CRUD admin
     - `quotes` → SELECT par token UUID (anon), CRUD admin
     - `invoices` → SELECT/INSERT admin, pas de UPDATE/DELETE (immuable)
     - `blog_articles` → SELECT si `published = true` (anon), CRUD admin
 
-- [ ] **Task 6 : Vérification finale** (AC: all)
-  - [ ] 6.1 `npm run build` — vérifier que le build passe
-  - [ ] 6.2 `npm run lint` — 0 erreurs
-  - [ ] 6.3 `npm run test:run` — tous les tests passent (anciens + nouveaux)
-  - [ ] 6.4 Vérifier que la migration SQL est syntaxiquement correcte
+- [x] **Task 6 : Vérification finale** (AC: all)
+  - [x]6.1 `npm run build` — vérifier que le build passe
+  - [x]6.2 `npm run lint` — 0 erreurs
+  - [x]6.3 `npm run test:run` — tous les tests passent (anciens + nouveaux)
+  - [x]6.4 Vérifier que la migration SQL est syntaxiquement correcte
 
 ## Dev Notes
 
@@ -203,10 +203,29 @@ digirepair/
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
 
+- Build OK: Next.js 16.1.6 (Turbopack), 16 pages
+- Lint OK: 0 erreurs
+- Tests OK: Vitest 4.0.18, 28/28 tests passés (16 RLS isolation + 7 Zod + 2 isAdmin + 3 ActionResult)
+
 ### Completion Notes List
 
+- Migration `20260220100003_rls_policies_complete.sql` créée avec 5 nouvelles policies (update_clients_admin, delete_clients_admin, insert_admin_users_admin, update_admin_users_admin, delete_admin_users_admin)
+- Helpers de test RLS réutilisables créés dans `__tests__/rls-test-helpers.ts` avec pattern `createMockTable<T>()` + policy sets pré-définis pour clients et admin_users
+- 16 tests d'isolation RLS couvrant : SELECT own, isolation entre clients, UPDATE/DELETE restrictions, admin full access, anonymous blocked — pour les deux tables
+- Pattern RLS documenté dans les Dev Notes avec Data Boundaries pour 7 tables futures
+- HALTED sur : `supabase db push` (nécessite `supabase link` par l'utilisateur)
+
+### Change Log
+
+- 2026-02-21: Story implementation — 6/6 tasks completed. Build/Lint/Tests OK. Pending: supabase db push.
+
 ### File List
+
+**Nouveaux fichiers :**
+- `digirepair/supabase/migrations/20260220100003_rls_policies_complete.sql` — Policies CRUD complètes clients + admin_users
+- `digirepair/lib/supabase/rls-test-helpers.ts` — Helpers de test RLS réutilisables (co-localisé)
+- `digirepair/lib/supabase/rls-isolation.test.ts` — 16 tests d'isolation RLS (co-localisé)
