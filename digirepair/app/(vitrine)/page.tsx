@@ -1,22 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
+import { LocalBusinessJsonLd } from "@/components/seo/local-business-jsonld";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
-import { LocalBusinessJsonLd } from "@/components/seo/local-business-jsonld";
 import {
-  Smartphone,
-  Tablet,
-  Laptop,
   Apple,
-  Gamepad2,
+  CheckCircle,
   Cpu,
+  Gamepad2,
+  Laptop,
   MessageCircle,
   Package,
-  CheckCircle,
+  Smartphone,
   Star,
+  Tablet,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -54,7 +54,7 @@ function HeroSection() {
             <div className="flex gap-6">
               <div>
                 <p className="text-2xl md:text-3xl font-bold text-primary">
-                  347+
+                  100+
                 </p>
                 <p className="text-xs font-medium text-muted-foreground">
                   appareils repares
@@ -62,7 +62,7 @@ function HeroSection() {
               </div>
               <div>
                 <p className="text-2xl md:text-3xl font-bold text-primary">
-                  4.9/5
+                  5/5
                 </p>
                 <p className="text-xs font-medium text-muted-foreground">
                   avis Google
@@ -117,7 +117,8 @@ const services = [
   {
     icon: Tablet,
     title: "Tablettes",
-    description: "Reparation d'ecran, batterie, connectique pour iPad et Android.",
+    description:
+      "Reparation d'ecran, batterie, connectique pour iPad et Android.",
     price: "49",
   },
   {
@@ -129,7 +130,8 @@ const services = [
   {
     icon: Apple,
     title: "Mac",
-    description: "MacBook, iMac — ecran, batterie, carte mere, recupération de donnees.",
+    description:
+      "MacBook, iMac — ecran, batterie, carte mere, recupération de donnees.",
     price: "59",
   },
   {
@@ -141,8 +143,9 @@ const services = [
   {
     icon: Cpu,
     title: "Microsoudure",
-    description: "Reparation avancee de composants CMS, rebillage, diagnostics carte mere.",
-    price: "69",
+    description:
+      "Reparation avancee de composants CMS, rebillage, diagnostics carte mere.",
+    price: "49",
   },
 ];
 
@@ -216,7 +219,10 @@ function HowItWorksSection() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step) => (
-            <div key={step.number} className="flex flex-col items-center text-center space-y-3">
+            <div
+              key={step.number}
+              className="flex flex-col items-center text-center space-y-3"
+            >
               <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-lg">
                 {step.number}
               </div>
@@ -241,21 +247,21 @@ function HowItWorksSection() {
 
 const reviews = [
   {
-    name: "Sophie M.",
+    name: "Adeline F.",
     rating: 5,
-    text: "Ecran de mon iPhone repare en moins de 2h. Travail soigne et prix tres correct. Je recommande !",
-    date: "Janvier 2026",
-  },
-  {
-    name: "Thomas D.",
-    rating: 5,
-    text: "Mon PC portable ne demarrait plus, diagnostic rapide et reparation efficace. Service au top.",
+    text: "Je suis vraiment très satisfaite des services de DigiRepair ! J’y suis allée pour plusieurs réparations sur mes téléphones ainsi que sur les tablettes de mes enfants. Le travail est soigné, rapide et le résultat est impeccable à chaque fois. Une excellente adresse pour toute la famille, je recommande les yeux fermés !",
     date: "Fevrier 2026",
   },
   {
-    name: "Marie L.",
-    rating: 4,
-    text: "Tres bon service pour la reparation de ma Nintendo Switch. Le suivi en ligne est un vrai plus.",
+    name: "Sonia N.",
+    rating: 5,
+    text: "Réponse rapide et prise en charge rapide tres satisfaite de la réparation effectuée n'hésitez pas (réparation de connecteur de charge tablette)",
+    date: "Fevrier 2026",
+  },
+  {
+    name: "Nicolas P.",
+    rating: 5,
+    text: "Réparation rapide et aucun problème survenu après la réparation de mon IPhone 15 Pro",
     date: "Fevrier 2026",
   },
 ];
@@ -276,8 +282,10 @@ function ReviewsSection() {
               />
             ))}
           </div>
-          <span className="font-semibold text-dr-dark">4.9/5</span>
-          <span className="text-sm text-muted-foreground">&mdash; 47 avis Google</span>
+          <span className="font-semibold text-dr-dark">5/5</span>
+          <span className="text-sm text-muted-foreground">
+            &mdash; 5 avis Google
+          </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {reviews.map((review) => (
