@@ -1,7 +1,7 @@
 import { LocalBusinessJsonLd } from "@/components/seo/local-business-jsonld";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import {
   Apple,
@@ -163,10 +163,10 @@ function ServicesSection() {
               className="rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
             >
               <CardHeader className="flex flex-row items-center gap-3 pb-2">
-                <service.icon className="h-8 w-8 text-primary shrink-0" />
-                <CardTitle className="text-lg md:text-xl">
+                <service.icon className="h-8 w-8 text-dr-dark shrink-0" />
+                <h3 className="text-lg md:text-xl font-semibold leading-none tracking-tight">
                   {service.title}
-                </CardTitle>
+                </h3>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-3">
@@ -223,10 +223,10 @@ function HowItWorksSection() {
               key={step.number}
               className="flex flex-col items-center text-center space-y-3"
             >
-              <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-primary-foreground font-bold text-lg">
+              <div className="flex items-center justify-center h-12 w-12 rounded-full bg-dr-dark text-white font-bold text-lg">
                 {step.number}
               </div>
-              <step.icon className="h-8 w-8 text-primary" />
+              <step.icon className="h-8 w-8 text-dr-dark" />
               <h3 className="text-lg md:text-xl font-semibold text-dr-dark">
                 {step.title}
               </h3>

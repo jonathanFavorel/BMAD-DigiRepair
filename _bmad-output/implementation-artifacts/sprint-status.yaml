@@ -49,9 +49,9 @@ development_status:
 
   # Epic 2: Vitrine Publique & SEO
   epic-2: in-progress
-  2-1-homepage-layout-public: in-progress
-  2-2-pages-seo-couche-1-categorie-ville: backlog
-  2-3-pages-seo-couche-2-marque-piece-modele-ville: backlog
+  2-1-homepage-layout-public: done
+  2-2-pages-seo-couche-1-categorie-ville: done
+  2-3-pages-seo-couche-2-marque-piece-modele-ville: in-progress
   2-4-blog-faq: backlog
   2-5-page-a-propos-mentions-legales: backlog
   2-6-scene-3d-vitrine: backlog

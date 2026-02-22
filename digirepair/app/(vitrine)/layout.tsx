@@ -11,6 +11,8 @@ export default function VitrineLayout({
     <>
       <Header />
       <main className="min-h-screen">{children}</main>
+      {/* pb-20 on mobile compensates for FloatingCTA height */}
+      <div className="pb-20 md:pb-0" />
       <Footer />
       <FloatingCTA />
     </>

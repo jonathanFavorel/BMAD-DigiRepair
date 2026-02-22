@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/#services", label: "Services" },
@@ -14,9 +14,21 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+function isLinkActive(pathname: string, href: string): boolean {
+  if (href.includes("#")) {
+    return pathname === href.split("#")[0] || (pathname === "/" && href.startsWith("/#"));
+  }
+  return pathname === href;
+}
+
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
@@ -39,7 +51,7 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === link.href
+                isLinkActive(pathname, link.href)
                   ? "text-primary border-b-2 border-primary pb-0.5"
                   : "text-foreground/80"
               }`}
@@ -80,7 +92,7 @@ export function Header() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`text-lg font-medium py-2 transition-colors ${
-                  pathname === link.href
+                  isLinkActive(pathname, link.href)
                     ? "text-primary border-l-2 border-primary pl-3"
                     : "text-foreground/80 pl-3"
                 }`}
