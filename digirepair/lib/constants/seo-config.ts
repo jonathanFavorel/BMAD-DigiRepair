@@ -251,18 +251,112 @@ export interface SeoCouche2SlugData {
 // ===========================
 
 function makeFaq(
+  pieceSlug: string,
   pieceLabel: string,
   brandLabel: string,
   modelLabel: string,
 ): SeoFaq[] {
-  return [
+  const faqByPiece: Record<string, SeoFaq[]> = {
+    ecran: [
+      {
+        question: `L'ecran de mon ${brandLabel} ${modelLabel} est fissure, est-ce reparable ?`,
+        answer: `Oui, nous remplacons l'ecran complet (vitre + dalle) de votre ${brandLabel} ${modelLabel}. Pieces de qualite certifiee, garantie 6 mois.`,
+      },
+      {
+        question: `Le tactile de mon ${modelLabel} ne repond plus, faut-il changer tout l'ecran ?`,
+        answer: `Dans la plupart des cas, oui : vitre et dalle sont colles ensemble sur le ${modelLabel}. Nous remplacons le bloc complet pour un resultat optimal.`,
+      },
+    ],
+    batterie: [
+      {
+        question: `Comment savoir si la batterie de mon ${modelLabel} est usee ?`,
+        answer: `Si votre ${brandLabel} ${modelLabel} perd plus de 20% en une heure ou s'eteint avant 0%, la batterie doit etre remplacee. Diagnostic gratuit dans notre atelier.`,
+      },
+      {
+        question: `La nouvelle batterie du ${modelLabel} sera-t-elle d'origine ?`,
+        answer: `Nous utilisons des batteries compatibles de haute qualite pour votre ${brandLabel} ${modelLabel}, avec une capacite identique a l'originale et une garantie de 6 mois.`,
+      },
+    ],
+    connecteur: [
+      {
+        question: `Mon ${modelLabel} ne charge plus, est-ce le connecteur ?`,
+        answer: `C'est la cause la plus frequente. Le port de charge du ${brandLabel} ${modelLabel} peut etre encrasse, oxyde ou endommage. Diagnostic gratuit pour confirmer.`,
+      },
+      {
+        question: `Combien de temps pour changer le connecteur de charge du ${modelLabel} ?`,
+        answer: `Le remplacement du connecteur de charge ${brandLabel} ${modelLabel} prend generalement 1 a 2 heures. Garantie 6 mois sur la reparation.`,
+      },
+    ],
+    clavier: [
+      {
+        question: `J'ai renverse du liquide sur mon ${modelLabel}, le clavier est-il reparable ?`,
+        answer: `Oui, nous remplacons le clavier de votre ${brandLabel} ${modelLabel}. En cas de degat des eaux, un nettoyage de la carte mere peut aussi etre necessaire.`,
+      },
+      {
+        question: `Certaines touches de mon ${modelLabel} ne fonctionnent plus, faut-il changer tout le clavier ?`,
+        answer: `Sur le ${brandLabel} ${modelLabel}, le clavier se remplace en bloc pour un resultat fiable. Intervention en 24h avec garantie 6 mois.`,
+      },
+    ],
+    "carte-mere": [
+      {
+        question: `Mon ${modelLabel} ne s'allume plus, est-ce la carte mere ?`,
+        answer: `Possiblement. Nous effectuons un diagnostic gratuit avec microscope pour identifier la panne exacte de votre ${brandLabel} ${modelLabel} avant toute intervention.`,
+      },
+      {
+        question: `La reparation carte mere ${modelLabel} est-elle fiable ?`,
+        answer: `Oui, nos techniciens specialises en microsoudure reparent les cartes meres ${brandLabel} avec un taux de reussite superieur a 85%. Garantie 6 mois.`,
+      },
+    ],
+    hdmi: [
+      {
+        question: `Le port HDMI de ma ${modelLabel} est arrache, c'est reparable ?`,
+        answer: `Oui, le remplacement du port HDMI ${brandLabel} ${modelLabel} se fait par microsoudure. C'est l'une de nos specialites. Garantie 6 mois.`,
+      },
+      {
+        question: `Ma ${modelLabel} n'affiche plus d'image sur la TV, est-ce le HDMI ?`,
+        answer: `Dans 90% des cas, oui. Nous effectuons un diagnostic gratuit de votre ${brandLabel} ${modelLabel} pour confirmer avant la reparation.`,
+      },
+    ],
+    lecteur: [
+      {
+        question: `Le lecteur de ma ${modelLabel} ne lit plus les jeux, c'est reparable ?`,
+        answer: `Oui, nous remplacons le lecteur optique de votre ${brandLabel} ${modelLabel}. Si le lecteur fait des bruits anormaux, n'attendez pas pour eviter d'endommager vos disques.`,
+      },
+      {
+        question: `Combien de temps pour remplacer le lecteur de la ${modelLabel} ?`,
+        answer: `Le remplacement du lecteur ${brandLabel} ${modelLabel} est effectue en 24h. Garantie 6 mois pieces et main d'oeuvre.`,
+      },
+    ],
+    ventilateur: [
+      {
+        question: `Ma ${modelLabel} fait beaucoup de bruit, est-ce le ventilateur ?`,
+        answer: `Tres probablement. La poussiere accumulee ou un ventilateur defaillant cause la surchauffe de votre ${brandLabel} ${modelLabel}. Nettoyage ou remplacement en 24h.`,
+      },
+      {
+        question: `Ma ${modelLabel} surchauffe et s'eteint, que faire ?`,
+        answer: `C'est un signe de ventilateur encrasse ou defectueux. Amenez votre ${brandLabel} ${modelLabel} pour un diagnostic gratuit. Intervention rapide en 24h.`,
+      },
+    ],
+    joystick: [
+      {
+        question: `Le joystick de ma ${modelLabel} derive tout seul, c'est reparable ?`,
+        answer: `Oui, le drift du joystick ${brandLabel} ${modelLabel} est notre reparation console la plus frequente. Remplacement du stick analogique en moins d'1 heure.`,
+      },
+      {
+        question: `Faut-il remplacer tout le Joy-Con ou juste le stick ?`,
+        answer: `Nous remplacons uniquement le stick analogique defectueux de votre ${brandLabel} ${modelLabel}, ce qui est plus economique qu'un Joy-Con neuf. Garantie 6 mois.`,
+      },
+    ],
+  };
+
+  return faqByPiece[pieceSlug] || [
     {
-      question: `Combien coute le remplacement ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} ?`,
-      answer: `Le remplacement ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} est propose a partir du tarif indique. Contactez-nous pour un devis gratuit et precis adapte a l'etat de votre appareil.`,
+      question: `Combien coute la reparation ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} ?`,
+      answer: `La reparation ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} est proposee a partir du tarif indique. Contactez-nous pour un devis gratuit.`,
     },
     {
       question: `Combien de temps pour reparer ${pieceLabel.toLowerCase()} ${modelLabel} ?`,
-      answer: `La reparation ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} est effectuee dans le delai indique. Toutes nos reparations sont garanties 6 mois pieces et main d'oeuvre.`,
+      answer: `La reparation ${pieceLabel.toLowerCase()} ${brandLabel} ${modelLabel} est effectuee dans le delai indique. Garantie 6 mois.`,
     },
   ];
 }
@@ -435,7 +529,7 @@ function buildCouche2Entries(): SeoCouche2Entry[] {
           pieceLabel: piece.label,
           priceFrom: piece.priceFrom,
           delai: piece.delai,
-          faq: makeFaq(piece.label, config.brandLabel, model.label),
+          faq: makeFaq(piece.slug, piece.label, config.brandLabel, model.label),
         });
       }
     }

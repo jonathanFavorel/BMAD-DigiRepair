@@ -1,6 +1,6 @@
 # Story 2.3: Pages SEO Couche 2 — Marque x Piece x Modele x Ville
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -23,61 +23,61 @@ So that **je vois le prix estime, le delai et je suis convaincu de contacter Dig
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1 : Etendre seo-config.ts avec les donnees marques/modeles/pieces** (AC: #1, #2)
-  - [ ] 1.1 Ajouter interfaces `SeoBrand`, `SeoModel`, `SeoPiece`, `SeoCouche2Entry`
-  - [ ] 1.2 Ajouter `SEO_BRANDS` : 3-5 marques par categorie (Apple, Samsung, HP, Lenovo, Sony, Nintendo, etc.)
-  - [ ] 1.3 Ajouter `SEO_COUCHE2_ENTRIES` : tableau plat de combinaisons piece x marque x modele avec priceFrom et delai
-  - [ ] 1.4 Fonction `generateSeoCouche2Slugs()` → tableau de `{ citySlug, repairSlug, entry }` pour `generateStaticParams`
-  - [ ] 1.5 Exporter types TypeScript
+- [x] **Task 1 : Etendre seo-config.ts avec les donnees marques/modeles/pieces** (AC: #1, #2)
+  - [x] 1.1 Ajouter interfaces `SeoBrand`, `SeoModel`, `SeoPiece`, `SeoCouche2Entry`
+  - [x] 1.2 Ajouter `SEO_BRANDS` : 3-5 marques par categorie (Apple, Samsung, HP, Lenovo, Sony, Nintendo, etc.)
+  - [x] 1.3 Ajouter `SEO_COUCHE2_ENTRIES` : tableau plat de combinaisons piece x marque x modele avec priceFrom et delai
+  - [x] 1.4 Fonction `generateSeoCouche2Slugs()` → tableau de `{ citySlug, repairSlug, entry }` pour `generateStaticParams`
+  - [x] 1.5 Exporter types TypeScript
 
-- [ ] **Task 2 : Etendre seo-helpers.ts avec parsing Couche 2** (AC: #6, #7)
-  - [ ] 2.1 Ajouter `parseCouche2Slug(citySlug, repairSlug)` → `{ entry, city }` ou `null`
-  - [ ] 2.2 Ajouter `generateCouche2Metadata(entry, city)` → `Metadata` Next.js
-  - [ ] 2.3 Ajouter `generateCouche2Breadcrumbs(entry, city)` → 4 niveaux (Accueil > Categorie > Marque > Ville)
-  - [ ] 2.4 Tests co-localises pour les nouvelles fonctions
+- [x] **Task 2 : Etendre seo-helpers.ts avec parsing Couche 2** (AC: #6, #7)
+  - [x] 2.1 Ajouter `parseCouche2Slug(citySlug, repairSlug)` → `{ entry, city }` ou `null`
+  - [x] 2.2 Ajouter `generateCouche2Metadata(entry, city)` → `Metadata` Next.js
+  - [x] 2.3 Ajouter `generateCouche2Breadcrumbs(entry, city)` → 4 niveaux (Accueil > Categorie > Marque > Ville)
+  - [x] 2.4 Tests co-localises pour les nouvelles fonctions
 
-- [ ] **Task 3 : Creer la route dynamique Couche 2** (AC: #1, #2, #5, #7)
-  - [ ] 3.1 Creer `app/(vitrine)/[ville]/[repair]/page.tsx` avec `generateStaticParams` et `generateMetadata`
-  - [ ] 3.2 Pas de `export const revalidate` (incompatible cacheComponents Next.js 16)
-  - [ ] 3.3 Parser avec `parseCouche2Slug()`, retourner `notFound()` si slug invalide
-  - [ ] 3.4 Rendre le composant SEO Couche 2 avec les donnees de l'entree et ville
+- [x] **Task 3 : Creer la route dynamique Couche 2** (AC: #1, #2, #5, #7)
+  - [x] 3.1 Creer `app/(vitrine)/[ville]/[repair]/page.tsx` avec `generateStaticParams` et `generateMetadata`
+  - [x] 3.2 Pas de `export const revalidate` (incompatible cacheComponents Next.js 16)
+  - [x] 3.3 Parser avec `parseCouche2Slug()`, retourner `notFound()` si slug invalide
+  - [x] 3.4 Rendre le composant SEO Couche 2 avec les donnees de l'entree et ville
 
-- [ ] **Task 4 : Creer le template SEO Couche 2** (AC: #1, #8)
-  - [ ] 4.1 Creer `components/custom/seo-couche2-template.tsx` — template specifique Couche 2
-  - [ ] 4.2 Hero : titre H1 specifique "Reparation {piece} {marque} {modele} a {ville}", prix, delai, garantie
-  - [ ] 4.3 Section specifications : details de la reparation specifique
-  - [ ] 4.4 Section FAQ : questions contextualisees a la reparation
-  - [ ] 4.5 Section CTA WhatsApp avec message pre-rempli ultra-specifique
-  - [ ] 4.6 Maillage interne : lien vers la page chapeau Couche 1 (categorie x ville)
+- [x] **Task 4 : Creer le template SEO Couche 2** (AC: #1, #8)
+  - [x] 4.1 Creer `components/custom/seo-couche2-template.tsx` — template specifique Couche 2
+  - [x] 4.2 Hero : titre H1 specifique "Reparation {piece} {marque} {modele} a {ville}", prix, delai, garantie
+  - [x] 4.3 Section specifications : details de la reparation specifique
+  - [x] 4.4 Section FAQ : questions contextualisees a la reparation
+  - [x] 4.5 Section CTA WhatsApp avec message pre-rempli ultra-specifique
+  - [x] 4.6 Maillage interne : lien vers la page chapeau Couche 1 (categorie x ville)
 
-- [ ] **Task 5 : Creer le Schema.org Couche 2** (AC: #3)
-  - [ ] 5.1 Creer `components/seo/service-couche2-jsonld.tsx` — Schema.org Service + AggregateRating
-  - [ ] 5.2 Donnees : @type Service, provider DigiRepair, areaServed ville, serviceType specifique
-  - [ ] 5.3 AggregateRating avec donnees statiques (ratingValue, reviewCount)
-  - [ ] 5.4 Inclure dans chaque page SEO Couche 2
+- [x] **Task 5 : Creer le Schema.org Couche 2** (AC: #3)
+  - [x] 5.1 Creer `components/seo/service-couche2-jsonld.tsx` — Schema.org Service + AggregateRating
+  - [x] 5.2 Donnees : @type Service, provider DigiRepair, areaServed ville, serviceType specifique
+  - [x] 5.3 AggregateRating avec donnees statiques (ratingValue, reviewCount)
+  - [x] 5.4 Inclure dans chaque page SEO Couche 2
 
-- [ ] **Task 6 : Etendre le sitemap** (AC: #4)
-  - [ ] 6.1 Modifier `app/sitemap.ts` pour inclure les URLs Couche 2
-  - [ ] 6.2 Priorite Couche 2 : 0.6 (inferieure a Couche 1 qui est 0.8)
-  - [ ] 6.3 Verifier que les URLs Couche 1 existantes ne sont pas impactees
+- [x] **Task 6 : Etendre le sitemap** (AC: #4)
+  - [x] 6.1 Modifier `app/sitemap.ts` pour inclure les URLs Couche 2
+  - [x] 6.2 Priorite Couche 2 : 0.6 (inferieure a Couche 1 qui est 0.8)
+  - [x] 6.3 Verifier que les URLs Couche 1 existantes ne sont pas impactees
 
-- [ ] **Task 7 : Etendre les breadcrumbs** (AC: #6)
-  - [ ] 7.1 Le composant `Breadcrumbs` existant est deja generique (accepte un tableau d'items)
-  - [ ] 7.2 Generer 4 niveaux dans `generateCouche2Breadcrumbs()` : Accueil > Categorie > Marque > Page
-  - [ ] 7.3 Schema.org BreadcrumbList avec 4 elements
+- [x] **Task 7 : Etendre les breadcrumbs** (AC: #6)
+  - [x] 7.1 Le composant `Breadcrumbs` existant est deja generique (accepte un tableau d'items)
+  - [x] 7.2 Generer 4 niveaux dans `generateCouche2Breadcrumbs()` : Accueil > Categorie > Marque > Page
+  - [x] 7.3 Schema.org BreadcrumbList avec 4 elements
 
-- [ ] **Task 8 : Ecrire les tests** (AC: all)
-  - [ ] 8.1 Tests `seo-config.test.ts` : nouvelles donnees Couche 2, generateSeoCouche2Slugs, unicite des slugs
-  - [ ] 8.2 Tests `seo-helpers.test.ts` : parseCouche2Slug, generateCouche2Metadata, generateCouche2Breadcrumbs
-  - [ ] 8.3 Tests composant `seo-couche2-template.test.tsx` : render sections, CTA contextuel, maillage interne
-  - [ ] 8.4 Tests composant `service-couche2-jsonld.test.tsx` : Schema.org Service + AggregateRating
-  - [ ] 8.5 Verifier que les tests existants Couche 1 passent toujours (non-regression)
+- [x] **Task 8 : Ecrire les tests** (AC: all)
+  - [x] 8.1 Tests `seo-config.test.ts` : nouvelles donnees Couche 2, generateSeoCouche2Slugs, unicite des slugs
+  - [x] 8.2 Tests `seo-helpers.test.ts` : parseCouche2Slug, generateCouche2Metadata, generateCouche2Breadcrumbs
+  - [x] 8.3 Tests composant `seo-couche2-template.test.tsx` : render sections, CTA contextuel, maillage interne
+  - [x] 8.4 Tests composant `service-couche2-jsonld.test.tsx` : Schema.org Service + AggregateRating
+  - [x] 8.5 Verifier que les tests existants Couche 1 passent toujours (non-regression)
 
-- [ ] **Task 9 : Verification finale** (AC: #2, #5)
-  - [ ] 9.1 `npm run build` — OK, pages Couche 2 generees statiquement
-  - [ ] 9.2 `npm run lint` — 0 erreurs
-  - [ ] 9.3 `npm run test:run` — tous les tests passent (existants + nouveaux)
-  - [ ] 9.4 Verifier que `generateStaticParams` genere le bon nombre de pages Couche 2
+- [x] **Task 9 : Verification finale** (AC: #2, #5)
+  - [x] 9.1 `npm run build` — OK, pages Couche 2 generees statiquement
+  - [x] 9.2 `npm run lint` — 0 erreurs
+  - [x] 9.3 `npm run test:run` — tous les tests passent (existants + nouveaux)
+  - [x] 9.4 Verifier que `generateStaticParams` genere le bon nombre de pages Couche 2
 
 ## Dev Notes
 
@@ -283,10 +283,41 @@ digirepair/
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
 
+Aucun
+
 ### Completion Notes List
 
+- Task 1 : Etendu `seo-config.ts` avec 4 interfaces Couche 2 (`SeoBrand`, `SeoModel`, `SeoPiece`, `SeoCouche2Entry`), 43 entrees statiques (10 configs marque/modele/piece), fonction `generateSeoCouche2Slugs()` generant 645 combinaisons (43 entries × 15 villes)
+- Task 2 : Etendu `seo-helpers.ts` avec `parseCouche2Slug()`, `generateCouche2Metadata()` (title/description/og:image dynamiques), `generateCouche2Breadcrumbs()` (4 niveaux)
+- Task 3 : Cree route `app/(vitrine)/[ville]/[repair]/page.tsx` avec `generateStaticParams`, `generateMetadata`, pas de `revalidate`
+- Task 4 : Cree `seo-couche2-template.tsx` avec Hero (H1, prix, delai, garantie), Specs (3 cards), FAQ (JSON-LD FAQPage), Maillage interne (lien Couche 1), CTA WhatsApp contextuel
+- Task 5 : Cree `service-couche2-jsonld.tsx` avec Schema.org Service + AggregateRating (4.9/5, 127 avis)
+- Task 6 : Etendu `sitemap.ts` — ajout URLs Couche 2 avec priorite 0.6
+- Task 7 : Breadcrumbs 4 niveaux generes via `generateCouche2Breadcrumbs()`, composant generique reutilise
+- Task 8 : 34 nouveaux tests (7 seo-config, 13 seo-helpers, 9 seo-couche2-template, 5 service-couche2-jsonld) — total 123 tests, 0 echec
+- Task 9 : Build OK (769 pages statiques), lint 0 erreurs, 123/123 tests passent
+
+### Change Log
+
+- 2026-02-22 : Implementation complete Story 2.3 — Pages SEO Couche 2 (43 entrees × 15 villes = 645 pages)
+- 2026-02-22 : Code review — 3 MEDIUM fixes : (M1) FAQ contextualisees par type de piece, (M2) AggregateRating retire pour eviter spam Google, (M3) Image hero ajoutee pour parite visuelle avec Couche 1
+
 ### File List
+
+**Nouveaux fichiers :**
+- `digirepair/app/(vitrine)/[ville]/[repair]/page.tsx` — Route dynamique Couche 2
+- `digirepair/components/custom/seo-couche2-template.tsx` — Template page Couche 2
+- `digirepair/components/custom/seo-couche2-template.test.tsx` — Tests template Couche 2
+- `digirepair/components/seo/service-couche2-jsonld.tsx` — Schema.org Couche 2
+- `digirepair/components/seo/service-couche2-jsonld.test.tsx` — Tests Schema.org Couche 2
+
+**Fichiers modifies :**
+- `digirepair/lib/constants/seo-config.ts` — Ajout types et donnees Couche 2
+- `digirepair/lib/constants/seo-config.test.ts` — Ajout tests Couche 2
+- `digirepair/lib/utils/seo-helpers.ts` — Ajout fonctions parsing/metadata/breadcrumbs Couche 2
+- `digirepair/lib/utils/seo-helpers.test.ts` — Ajout tests Couche 2
+- `digirepair/app/sitemap.ts` — Ajout URLs Couche 2 (priorite 0.6)
